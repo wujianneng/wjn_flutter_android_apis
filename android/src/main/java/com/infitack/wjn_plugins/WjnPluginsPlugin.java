@@ -1,5 +1,8 @@
 package com.infitack.wjn_plugins;
 
+import android.app.Activity;
+import android.content.Intent;
+
 import androidx.annotation.NonNull;
 import io.flutter.embedding.engine.plugins.FlutterPlugin;
 import io.flutter.plugin.common.MethodCall;
@@ -10,6 +13,9 @@ import io.flutter.plugin.common.PluginRegistry.Registrar;
 
 /** WjnPluginsPlugin */
 public class WjnPluginsPlugin implements FlutterPlugin, MethodCallHandler {
+  public static Activity activity;
+
+
   @Override
   public void onAttachedToEngine(@NonNull FlutterPluginBinding flutterPluginBinding) {
     final MethodChannel channel = new MethodChannel(flutterPluginBinding.getFlutterEngine().getDartExecutor(), "wjn_plugins");
@@ -26,17 +32,25 @@ public class WjnPluginsPlugin implements FlutterPlugin, MethodCallHandler {
   // depending on the user's project. onAttachedToEngine or registerWith must both be defined
   // in the same class.
   public static void registerWith(Registrar registrar) {
+    activity = registrar.activity();
     final MethodChannel channel = new MethodChannel(registrar.messenger(), "wjn_plugins");
     channel.setMethodCallHandler(new WjnPluginsPlugin());
   }
 
   @Override
   public void onMethodCall(@NonNull MethodCall call, @NonNull Result result) {
-    if (call.method.equals("getPlatformVersion")) {
-      result.success("Android " + android.os.Build.VERSION.RELEASE);
+    if (call.method.equals("onBackToHome")) {
+      result.success(true);
     } else {
       result.notImplemented();
     }
+  }
+
+  public void backDesktop() {
+    Intent intent = new Intent(Intent.ACTION_MAIN);
+    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+    intent.addCategory(Intent.CATEGORY_HOME);
+    activity.startActivity(intent);
   }
 
   @Override

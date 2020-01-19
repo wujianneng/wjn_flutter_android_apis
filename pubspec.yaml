@@ -1,8 +1,8 @@
 name: wjn_plugins
 description: A new Flutter plugin.
 version: 0.0.1
-author:
-homepage:
+author: tom798192335@gmail.com
+homepage: https://github.com/wujianneng/wjn_plugins.git
 
 environment:
   sdk: ">=2.1.0 <3.0.0"
